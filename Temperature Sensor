@@ -1,0 +1,42 @@
+      // Lcd pinout settings
+sbit LCD_RS at RB0_bit;
+sbit LCD_EN at RB1_bit;
+sbit LCD_D7 at RB5_bit;
+sbit LCD_D6 at RB4_bit;
+sbit LCD_D5 at RB3_bit;
+sbit LCD_D4 at RB2_bit;
+
+// Pin direction
+sbit LCD_RS_Direction at TRISB0_bit;
+sbit LCD_EN_Direction at TRISB1_bit;
+sbit LCD_D7_Direction at TRISB5_bit;
+sbit LCD_D6_Direction at TRISB4_bit;
+sbit LCD_D5_Direction at TRISB3_bit;
+sbit LCD_D4_Direction at TRISB2_bit;
+
+float ff1;
+char txt1[15];
+char txt2[15];
+unsigned int temp;
+unsigned int Volt_res;
+
+void main()
+ {
+ while(1) {
+ Volt_res = ADC_Read(2);
+ ff1=(5.0* Volt_res)/256.0;
+ temp = (3.2779*ff1*ff1*ff1*ff1)-(8.6453*ff1*ff1*ff1)+(8.261*ff1*ff1)+(8.7306*ff1)+19.951;
+
+FloatToStr(ff1, txt1);
+FloatToStr(temp, txt2);
+  Lcd_Init();                        // Initialize LCD
+  Lcd_Cmd(_LCD_CLEAR);               // Clear display
+  Lcd_Cmd(_LCD_CURSOR_OFF);
+ // Lcd_Out(1,1,"Temperature: ");     // Write text in first row
+  Lcd_Out(2,1,txt2);               // Write text in second row
+ // Lcd_Out(1,1,"Voltage: ");
+  Lcd_Out(1,1,txt1);               // Write text in second row
+  Delay_ms(1000);
+  }
+
+}
